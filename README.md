@@ -19,12 +19,4 @@ DHIS2 School Inspection App er en React-basert applikasjon som brukes til å sam
 - CSS Modules for styling
 - DHIS2 API
 
-## Installasjon
 
-Følg disse trinnene for å sette opp prosjektet lokalt:
-
-1. Klon dette repoet:
-
-   ```bash
-   git clone https://github.com/brukernavn/DHIS2-School-Inspection-App.git
-   cd DHIS2-School-Inspection-App
