@@ -1,0 +1,74 @@
+.container {
+  max-width: 600px;
+  margin: 0 auto; /* Center the container */
+  padding: 20px;
+  background-color: #f5f5f5; /* Light background */
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333; /* Dark text color */
+  margin-bottom: 20px; /* Space below the title */
+}
+
+.label {
+  display: block;
+  margin-bottom: 8px; /* Space below the label */
+  font-size: 16px; /* Font size for labels */
+  color: #555; /* Gray color for labels */
+}
+
+.select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc; /* Light border */
+  border-radius: 4px; /* Rounded corners */
+  font-size: 16px; /* Font size for the select */
+  margin-bottom: 20px; /* Space below the select */
+}
+
+.fetchButton, .planButton { /* Ensures both buttons have the same style */
+  display: block; /* Full width and on a separate line */
+  width: 100%; /* Full width button */
+  padding: 10px 20px;
+  background-color: #7daae0; /* Light blue background */
+  color: white; /* White text */
+  border: none;
+  border-radius: 4px; /* Rounded corners */
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Smooth transition */
+  margin-bottom: 15px; /* Space between buttons */
+}
+
+.fetchButton:hover, .planButton:hover {
+  background-color: #315b91; /* Darker blue on hover */
+}
+
+.errorMessage {
+  color: #ff0000; /* Red for error messages */
+  margin-top: 10px; /* Space above the error message */
+}
+
+.schoolList {
+  list-style: none; /* Remove default list styling */
+  padding: 0; /* Remove default padding */
+}
+
+.schoolCard {
+  padding: 15px;
+  margin: 10px 0;
+  background-color: #fff; /* White background for cards */
+  border: 1px solid #ddd; /* Light border */
+  border-radius: 5px; /* Rounded corners */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Subtle shadow for cards */
+}
+
+.schoolName {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333; /* Dark text color for school names */
+}

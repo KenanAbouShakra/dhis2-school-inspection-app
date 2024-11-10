@@ -1,0 +1,75 @@
+.formContainer {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid #cce4ff; /* Light blue border */
+  }
+  
+  .title {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #0047ba; /* Dark blue for title */
+  }
+  
+  .fieldGroup {
+    margin-bottom: 20px;
+  }
+  
+  .inputLabel {
+    font-size: 14px;
+    color: #0047ba; /* Dark blue for label text */
+    font-weight: 600;
+  }
+  
+  .radioGroup {
+    display: flex;
+    gap: 15px;
+    margin-top: 5px;
+  }
+  
+  .radioGroup .dhis2-uiwidgets-radio {
+    color: #0047ba; /* Dark blue for radio buttons */
+  }
+  
+  .inputField {
+    width: 100%;
+    border: 1px solid #cce4ff; /* Light blue border for inputs */
+    border-radius: 4px;
+    padding: 8px;
+    margin-top: 5px;
+  }
+  
+  .submitButton {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #0047ba; /* Dark blue for button */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .submitButton:hover {
+    background-color: #003599; /* Darker blue on hover */
+  }
+  
+  .successMessage {
+    text-align: center;
+    color: green;
+    margin-top: 10px;
+  }
+  
+  .errorMessage {
+    color: red;
+    font-size: 12px;
+    margin-top: 4px;
+  }
+  
