@@ -1,74 +1,137 @@
+/* Main Container */
 .container {
-  max-width: 600px;
-  margin: 0 auto; /* Center the container */
+  max-width: 800px;
+  margin: 0 auto;
   padding: 20px;
-  background-color: #f5f5f5; /* Light background */
+  background-color: #f5f5f5;
   border-radius: 5px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Title Styling */
 .title {
   font-size: 24px;
   font-weight: bold;
-  color: #333; /* Dark text color */
-  margin-bottom: 20px; /* Space below the title */
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
+/* Label Styling */
 .label {
   display: block;
-  margin-bottom: 8px; /* Space below the label */
-  font-size: 16px; /* Font size for labels */
-  color: #555; /* Gray color for labels */
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: #555;
 }
 
+/* Dropdown Select Styling */
 .select {
   width: 100%;
   padding: 10px;
-  border: 1px solid #ccc; /* Light border */
-  border-radius: 4px; /* Rounded corners */
-  font-size: 16px; /* Font size for the select */
-  margin-bottom: 20px; /* Space below the select */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  margin-bottom: 20px;
 }
 
-.fetchButton, .planButton { /* Ensures both buttons have the same style */
-  display: block; /* Full width and on a separate line */
-  width: 100%; /* Full width button */
+/* Button Styling */
+.fetchButton, .planButton, .button {
+  display: block;
+  width: 100%;
   padding: 10px 20px;
-  background-color: #7daae0; /* Light blue background */
-  color: white; /* White text */
+  background-color: #7daae0;
+  color: white;
   border: none;
-  border-radius: 4px; /* Rounded corners */
+  border-radius: 4px;
   font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.3s ease; /* Smooth transition */
-  margin-bottom: 15px; /* Space between buttons */
+  transition: background-color 0.3s ease;
+  margin-bottom: 15px;
 }
 
-.fetchButton:hover, .planButton:hover {
-  background-color: #315b91; /* Darker blue on hover */
+.fetchButton:hover, .planButton:hover, .button:hover {
+  background-color: #315b91;
 }
 
+/* Error Message Styling */
 .errorMessage {
-  color: #ff0000; /* Red for error messages */
-  margin-top: 10px; /* Space above the error message */
+  color: #ff0000;
+  margin-top: 10px;
 }
 
+/* School List Styling */
 .schoolList {
-  list-style: none; /* Remove default list styling */
-  padding: 0; /* Remove default padding */
+  list-style: none;
+  padding: 0;
 }
 
+/* School Card Styling */
 .schoolCard {
   padding: 15px;
   margin: 10px 0;
-  background-color: #fff; /* White background for cards */
-  border: 1px solid #ddd; /* Light border */
-  border-radius: 5px; /* Rounded corners */
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Subtle shadow for cards */
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
+/* School Name Styling */
 .schoolName {
   font-size: 18px;
   font-weight: bold;
-  color: #333; /* Dark text color for school names */
+  color: #333;
+}
+
+/* Navbar Styling */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+}
+
+.navTitle {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.navLinks a {
+  color: white;
+  margin-left: 15px;
+  text-decoration: none;
+}
+
+/* Card Container for Flex Layout */
+.cardContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  margin-top: 20px;
+}
+
+/* Individual Card Styling with distinct background and border */
+.card {
+  background-color: #e6f7ff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 2px solid #7daae0;
+  flex: 1;
+  text-align: center;
+}
+
+/* Responsive Layout for Larger Screens */
+@media (min-width: 768px) {
+  .cardContainer {
+    flex-direction: row; /* Display cards side-by-side */
+  }
+}
+
+/* Select Container for District Dropdown */
+.selectContainer {
+  margin-top: 20px;
 }
