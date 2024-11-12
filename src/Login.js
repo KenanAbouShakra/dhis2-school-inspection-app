@@ -10,8 +10,8 @@ function Login({ onLoginSuccess }) {
     const [error, setError] = useState(null);
     const [showPlanner, setShowPlanner] = useState(false);
     const [showInspector, setShowInspector] = useState(false);
-    const [showDistrictSelect, setShowDistrictSelect] = useState(false);
 
+    // Fetch districts when component loads
     useEffect(() => {
         const loadDistricts = async () => {
             try {
@@ -26,36 +26,37 @@ function Login({ onLoginSuccess }) {
         loadDistricts();
     }, []);
 
+    // Handle click to show Inspector view
     const handleInspectorClick = () => {
-        setShowDistrictSelect(true);
         setShowInspector(true);
-        setShowPlanner(false); // Hide Planner
-        setSchoolData(null); // Clear previous school data when switching views
+        setShowPlanner(false);
     };
 
+    // Handle click to show Planner view
     const handlePlannerClick = () => {
-        setShowDistrictSelect(true);
         setShowPlanner(true);
-        setShowInspector(false); // Hide Inspector
-        setSchoolData(null); // Clear previous school data when switching views
+        setShowInspector(false);
     };
 
-    const handleDistrictSelect = async () => {
-        if (!selectedDistrict) {
-            alert("Please select a district.");
+    // Handle district change and fetch school data
+    const handleDistrictChange = async (e) => {
+        setSelectedDistrict(e.target.value);
+        if (!e.target.value) {
+            setSchoolData(null);
             return;
         }
 
         try {
-            const schoolResponse = await fetchSchoolsInCluster(selectedDistrict);
-            setSchoolData(schoolResponse);
+            const schoolResponse = await fetchSchoolsInCluster(e.target.value);
+            setSchoolData(schoolResponse.children);
             setError(null);
         } catch (err) {
-            setError(`Failed to fetch data: ${err.message}`);
+            setError(`Failed to fetch schools: ${err.message}`);
             console.error("Error details: ", err);
         }
     };
 
+    // Handle selecting a school to view details
     const handleSelectSchool = (school) => {
         const hasInspectionProgram = school.programs.some(
             (program) => program.id === "UxK2o06ScIe" 
@@ -65,14 +66,6 @@ function Login({ onLoginSuccess }) {
         } else {
             alert("This school does not have the School Inspection program.");
         }
-    };
-
-    const handleCancel = () => {
-        setShowPlanner(false);
-    };
-
-    const handlePlanConfirmed = () => {
-        setShowPlanner(false);
     };
 
     return (
@@ -97,36 +90,31 @@ function Login({ onLoginSuccess }) {
                 </div>
             </div>
 
-            {/* Show district select after a function is chosen */}
-            {showDistrictSelect && (
-                <div className={styles.selectContainer}>
-                    <label htmlFor="districtSelect" className={styles.label}>Select District:</label>
-                    <select 
-                        id="districtSelect" 
-                        className={styles.select}
-                        value={selectedDistrict} 
-                        onChange={(e) => setSelectedDistrict(e.target.value)}
-                    >
-                        <option value="">-- Select a District --</option>
-                        {districts.map((district) => (
-                            <option key={district.id} value={district.id}>
-                                {district.displayName}
-                            </option>
-                        ))}
-                    </select>
-                    <button onClick={handleDistrictSelect} className={styles.fetchButton}>
-                        Fetch Schools
-                    </button>
-                </div>
-            )}
-
             {/* Display Inspector view if selected */}
             {showInspector && (
                 <div className={styles.section}>
                     <h2>Inspector View</h2>
-                    {schoolData ? (
+                    <div className={styles.selectContainer}>
+                        <label htmlFor="districtSelect" className={styles.label}>Select District:</label>
+                        <select 
+                            id="districtSelect" 
+                            className={styles.select}
+                            value={selectedDistrict} 
+                            onChange={handleDistrictChange}
+                        >
+                            <option value="">-- Select a District --</option>
+                            {districts.map((district) => (
+                                <option key={district.id} value={district.id}>
+                                    {district.displayName}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    {/* Display list of schools */}
+                    {schoolData && (
                         <ul className={styles.schoolList}>
-                            {schoolData.children.map((school, index) => (
+                            {schoolData.map((school, index) => (
                                 <li key={index} className={styles.schoolCard}>
                                     <h3 className={styles.schoolName}>{school.name}</h3>
                                     <button onClick={() => handleSelectSchool(school)}>
@@ -135,8 +123,6 @@ function Login({ onLoginSuccess }) {
                                 </li>
                             ))}
                         </ul>
-                    ) : (
-                        <p>Select a district and click "Fetch Schools" to see schools.</p>
                     )}
                 </div>
             )}
@@ -145,7 +131,11 @@ function Login({ onLoginSuccess }) {
             {showPlanner && (
                 <div className={styles.section}>
                     <h2>Plan Inspection</h2>
-                    <Planner onCancel={handleCancel} onPlanConfirmed={handlePlanConfirmed} />
+                    <Planner 
+                        onCancel={() => setShowPlanner(false)} 
+                        onPlanConfirmed={() => setShowPlanner(false)}
+                        districts={districts}
+                    />
                 </div>
             )}
 

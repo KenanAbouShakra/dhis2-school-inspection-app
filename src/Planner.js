@@ -1,26 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { fetchDistricts, fetchSchoolsInCluster } from "./ApiService";
+import React, { useState } from "react";
+import { fetchSchoolsInCluster } from "./ApiService";
 import styles from './Planner.module.css';
 
-function Planner({ onCancel, onPlanConfirmed }) { 
-    const [districts, setDistricts] = useState([]);
+function Planner({ onCancel, onPlanConfirmed, districts }) { 
     const [selectedDistrict, setSelectedDistrict] = useState('');
     const [schoolData, setSchoolData] = useState([]);
     const [selectedSchools, setSelectedSchools] = useState([]);
     const [inspectionDate, setInspectionDate] = useState('');
     const [error, setError] = useState(null);
-
-    useEffect(() => {
-        const loadDistricts = async () => {
-            try {
-                const districtResponse = await fetchDistricts();
-                setDistricts(districtResponse.organisationUnits); 
-            } catch (err) {
-                setError(`Failed to fetch districts: ${err.message}`);
-            }
-        };
-        loadDistricts();
-    }, []);
 
     const handleDistrictChange = async (e) => {
         setSelectedDistrict(e.target.value);
@@ -54,22 +41,17 @@ function Planner({ onCancel, onPlanConfirmed }) {
             schools: selectedSchools.map(school => school.name),
         };
 
-        // Log plan details to console
         console.log("Inspection Plan:", planData);
 
-        // Confirmation prompt
         if (window.confirm(`Confirm inspection plan for ${selectedSchools.map(s => s.name).join(' and ')} on ${inspectionDate}?`)) {
-            // Create JSON file
             const blob = new Blob([JSON.stringify(planData, null, 2)], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
 
-            // Trigger download of JSON file
             const link = document.createElement('a');
             link.href = url;
             link.download = `inspection_plan_${inspectionDate}.json`;
             link.click();
 
-            // Reset form and call onPlanConfirmed
             setSelectedDistrict('');
             setSelectedSchools([]);
             setInspectionDate('');
@@ -80,8 +62,6 @@ function Planner({ onCancel, onPlanConfirmed }) {
 
     return (
         <div className={styles.container}>
-            <h2>Plan Inspection</h2>
-
             <label htmlFor="districtSelect" className={styles.label}>Select District:</label>
             <select 
                 id="districtSelect" 
