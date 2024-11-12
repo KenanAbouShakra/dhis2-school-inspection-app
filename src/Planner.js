@@ -1,14 +1,29 @@
-import React, { useState } from "react";
-import { fetchSchoolsInCluster } from "./ApiService";
+import React, { useState, useEffect } from "react";
+import { fetchDistricts, fetchSchoolsInCluster } from "./ApiService";
 import styles from './Planner.module.css';
 
-function Planner({ onCancel, onPlanConfirmed, districts }) { 
+function Planner({ onCancel, onPlanConfirmed }) {
+    const [districts, setDistricts] = useState([]);
     const [selectedDistrict, setSelectedDistrict] = useState('');
     const [schoolData, setSchoolData] = useState([]);
     const [selectedSchools, setSelectedSchools] = useState([]);
     const [inspectionDate, setInspectionDate] = useState('');
     const [error, setError] = useState(null);
 
+    // Fetch districts when component loads
+    useEffect(() => {
+        const loadDistricts = async () => {
+            try {
+                const districtResponse = await fetchDistricts();
+                setDistricts(districtResponse.organisationUnits);
+            } catch (err) {
+                setError(`Failed to fetch districts: ${err.message}`);
+            }
+        };
+        loadDistricts();
+    }, []);
+
+    // Handle district change and fetch school data
     const handleDistrictChange = async (e) => {
         setSelectedDistrict(e.target.value);
         setSelectedSchools([]);
@@ -20,6 +35,7 @@ function Planner({ onCancel, onPlanConfirmed, districts }) {
         }
     };
 
+    // Handle school selection logic
     const handleSchoolSelection = (school) => {
         if (selectedSchools.includes(school)) {
             setSelectedSchools(selectedSchools.filter(s => s !== school));
@@ -30,6 +46,7 @@ function Planner({ onCancel, onPlanConfirmed, districts }) {
         }
     };
 
+    // Handle plan submission logic
     const handlePlanSubmit = () => {
         if (!inspectionDate || selectedSchools.length !== 2) {
             alert("Please select exactly two schools and a date.");
@@ -41,17 +58,19 @@ function Planner({ onCancel, onPlanConfirmed, districts }) {
             schools: selectedSchools.map(school => school.name),
         };
 
-        console.log("Inspection Plan:", planData);
-
+        // Confirmation prompt
         if (window.confirm(`Confirm inspection plan for ${selectedSchools.map(s => s.name).join(' and ')} on ${inspectionDate}?`)) {
+            // Create JSON file
             const blob = new Blob([JSON.stringify(planData, null, 2)], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
 
+            // Trigger download of JSON file
             const link = document.createElement('a');
             link.href = url;
             link.download = `inspection_plan_${inspectionDate}.json`;
             link.click();
 
+            // Reset form and call onPlanConfirmed
             setSelectedDistrict('');
             setSelectedSchools([]);
             setInspectionDate('');
@@ -62,10 +81,12 @@ function Planner({ onCancel, onPlanConfirmed, districts }) {
 
     return (
         <div className={styles.container}>
+            <h2>Plan Inspection</h2>
+
             <label htmlFor="districtSelect" className={styles.label}>Select District:</label>
-            <select 
-                id="districtSelect" 
-                value={selectedDistrict} 
+            <select
+                id="districtSelect"
+                value={selectedDistrict}
                 onChange={handleDistrictChange}
                 className={styles.select}
             >
@@ -77,13 +98,24 @@ function Planner({ onCancel, onPlanConfirmed, districts }) {
                 ))}
             </select>
 
+            {/* Show map for the selected district */}
+            {selectedDistrict && (
+                <div className={styles.mapContainer}>
+                    <iframe
+                        src={`https://research.im.dhis2.org/in5320g19/dhis-web-maps/plugin.html?district=${selectedDistrict}`}
+                        style={{ width: '100%', height: '400px', border: 'none' }}
+                        title="District Map"
+                    />
+                </div>
+            )}
+
             {schoolData.length > 0 && (
                 <>
                     <label htmlFor="inspectionDate" className={styles.label}>Select Date:</label>
-                    <input 
-                        type="date" 
-                        id="inspectionDate" 
-                        value={inspectionDate} 
+                    <input
+                        type="date"
+                        id="inspectionDate"
+                        value={inspectionDate}
                         onChange={(e) => setInspectionDate(e.target.value)}
                         className={styles.dateInput}
                     />

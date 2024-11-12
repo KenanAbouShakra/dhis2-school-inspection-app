@@ -19,16 +19,19 @@ const SchoolInspectionForm = ({ school, onCancel }) => {
   const [playground, setPlayground] = useState('');
   const [playgroundCondition, setPlaygroundCondition] = useState('');
   const [teacherToilets, setTeacherToilets] = useState('');
+  const [qualifiedTeachersPRI, setQualifiedTeachersPRI] = useState('');
+  const [totalStudents, setTotalStudents] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState({});
 
   // Handle number inputs and prevent negative values
   const handleNumberChange = (setter) => (value) => {
-    if (value < 0) {
-      setErrors(prev => ({ ...prev, [setter]: "Value cannot be negative" }));
+    const numericValue = parseInt(value, 10);
+    if (numericValue < 0) {
+      setErrors(prev => ({ ...prev, [setter.name]: "Value cannot be negative" }));
     } else {
-      setErrors(prev => ({ ...prev, [setter]: "" }));
-      setter(value); 
+      setErrors(prev => ({ ...prev, [setter.name]: "" }));
+      setter(numericValue);
     }
   };
 
@@ -55,7 +58,9 @@ const SchoolInspectionForm = ({ school, onCancel }) => {
             { dataElement: "XIgpDhDC4Ol", value: cleanClassrooms },          
             { dataElement: "XThfmg6f2oC", value: playground },               
             { dataElement: "JzZfwXtdL6G", value: playgroundCondition },      
-            { dataElement: "I13NTyLrHBm", value: teacherToilets },           
+            { dataElement: "I13NTyLrHBm", value: teacherToilets },  
+            { dataElement: "RJi5MW86kCs", value: qualifiedTeachersPRI },
+            { dataElement: "ue3QIMOAC7G", value: totalStudents },         
           ],
         },
       ],
@@ -105,6 +110,8 @@ const SchoolInspectionForm = ({ school, onCancel }) => {
     if (playground === '' || playground === undefined) newErrors.playground = "Please select if there is a yard/playground";
     if (playground === 'Yes' && !playgroundCondition) newErrors.playgroundCondition = "Condition is required when there is a playground";
     if (!teacherToilets) newErrors.teacherToilets = "Toilets for teachers are required";
+    if (!qualifiedTeachersPRI) newErrors.qualifiedTeachersPRI = "Qualified teachers are required";
+    if (!totalStudents) newErrors.totalStudents = "Total number of students is required";
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -121,6 +128,8 @@ const SchoolInspectionForm = ({ school, onCancel }) => {
       Clean Classrooms: ${cleanClassrooms}
       Playground: ${playground} (Condition: ${playgroundCondition})
       Toilets for Teachers: ${teacherToilets}
+      Qualified Teachers PRI: ${qualifiedTeachersPRI}
+      Total Students: ${totalStudents}
     `;
 
     if (window.confirm(`Are you sure you want to submit the following information?\n\n${confirmationMessage}`)) {
@@ -139,6 +148,8 @@ const SchoolInspectionForm = ({ school, onCancel }) => {
         playground,
         playgroundCondition,
         teacherToilets,
+        qualifiedTeachersPRI,
+        totalStudents,
       });
 
       const formData = {
@@ -156,6 +167,8 @@ const SchoolInspectionForm = ({ school, onCancel }) => {
         playground,
         playgroundCondition,
         teacherToilets,
+        qualifiedTeachersPRI,
+        totalStudents,
       };
 
       const blob = new Blob([JSON.stringify(formData, null, 2)], { type: 'application/json' });
@@ -336,6 +349,25 @@ const SchoolInspectionForm = ({ school, onCancel }) => {
         className={styles.fieldGroup}
       />
       {errors.teacherToilets && <p className={styles.errorMessage}>{errors.teacherToilets}</p>}
+
+      <InputField
+        label="Qualified Teachers PRI"
+        type="number"
+        value={qualifiedTeachersPRI}
+        onChange={({ value }) => handleNumberChange(setQualifiedTeachersPRI)(value)}
+        className={styles.fieldGroup}
+      />
+      {errors.qualifiedTeachersPRI && <p className={styles.errorMessage}>{errors.qualifiedTeachersPRI}</p>}
+
+      <InputField
+        label="Total number of students"
+        type="number"
+        value={totalStudents}
+        onChange={({ value }) => handleNumberChange(setTotalStudents)(value)}
+        className={styles.fieldGroup}
+      />
+      {errors.totalStudents && <p className={styles.errorMessage}>{errors.totalStudents}</p>}
+
 
       <Button onClick={handleSubmit} className={styles.submitButton}>Submit</Button>
       <Button onClick={onCancel} className={styles.cancelButton}>Cancel</Button>
