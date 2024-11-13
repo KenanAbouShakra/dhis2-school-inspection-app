@@ -3,7 +3,7 @@ import { fetchDistricts, fetchSchoolsInCluster } from "./ApiService";
 import Planner from "./Planner";
 import styles from './Login.module.css';
 
-function Login({ onLoginSuccess }) { 
+function Login({ onLoginSuccess, onNewSchool }) { 
     const [districts, setDistricts] = useState([]);
     const [selectedDistrict, setSelectedDistrict] = useState('');
     const [schoolData, setSchoolData] = useState(null);
@@ -86,6 +86,13 @@ function Login({ onLoginSuccess }) {
                     <h2>Planning</h2>
                     <button onClick={handlePlannerClick} className={styles.button}>
                         Plan Visit
+                    </button>
+                </div>
+                {/* New School */}
+                <div className={styles.card}>
+                    <h2>New School</h2>
+                    <button onClick={onNewSchool} className={styles.button}>
+                        Record New School
                     </button>
                 </div>
             </div>

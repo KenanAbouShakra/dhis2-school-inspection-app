@@ -74,3 +74,26 @@ export const submitEvent = async (eventPayload) => {
         throw error;
     }
 };
+export const submitNewSchool = async (schoolData) => {
+    try {
+        const response = await fetch(`${BASE_URL}/api/newSchools`, {
+            method: 'POST',
+            headers: {
+                'Authorization': 'Basic ' + btoa('in5320:P1@tform'),
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(schoolData),
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error("Error submitting new school:", errorData);
+            throw new Error("Failed to submit new school: " + errorData.message);
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error("Error submitting new school:", error);
+        throw error;
+    }
+};
