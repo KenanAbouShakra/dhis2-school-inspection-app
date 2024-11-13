@@ -1,4 +1,4 @@
-/* Planner.module.css */
+/* NewSchoolForm.module.css */
 .container {
     margin-top: 20px;
     padding: 20px;
@@ -6,20 +6,17 @@
     border-radius: 8px;
     background-color: #f9f9f9;
 }
-
 .title {
     font-size: 20px;
     font-weight: bold;
     margin-bottom: 15px;
 }
-
 .label {
     display: block;
     margin-bottom: 8px;
     font-weight: 500;
 }
-
-.select, .dateInput, .submitButton, .cancelButton {
+.select, .dateInput, .submitButton, .cancelButton, .geoButton {
     display: block;
     width: 100%;
     padding: 10px;
@@ -29,12 +26,10 @@
     border: 1px solid #ccc;
     cursor: pointer;
 }
-
 .schoolList {
     list-style-type: none;
     padding: 0;
 }
-
 .schoolCard {
     margin: 10px 0;
     padding: 10px;
@@ -42,31 +37,25 @@
     border-radius: 4px;
     background-color: #fff;
 }
-
 .errorMessage {
     color: red;
     font-weight: bold;
-    text-align: center;
 }
-
 .submitButton {
     background-color: #007bff; /* Blue */
     color: white;
     font-weight: bold;
     transition: background-color 0.3s ease;
 }
-
 .submitButton:hover {
     background-color: #0056b3;
 }
-
 .cancelButton {
     background-color: #f44336; /* Red */
     color: white;
     font-weight: bold;
     transition: background-color 0.3s ease;
 }
-
 .cancelButton:hover {
     background-color: #d32f2f;
 }

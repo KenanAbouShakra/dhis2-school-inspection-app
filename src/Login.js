@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { fetchDistricts, fetchSchoolsInCluster } from "./ApiService";
 import Planner from "./Planner";
 import styles from './Login.module.css';
+import NewSchoolForm from "./NewSchoolForm";
 
 function Login({ onLoginSuccess, onNewSchool }) { 
     const [districts, setDistricts] = useState([]);
@@ -10,6 +11,7 @@ function Login({ onLoginSuccess, onNewSchool }) {
     const [error, setError] = useState(null);
     const [showPlanner, setShowPlanner] = useState(false);
     const [showInspector, setShowInspector] = useState(false);
+    const [showNewSchool, setShowNewSchool] = useState(false);
 
     // Fetch districts when component loads
     useEffect(() => {
@@ -30,13 +32,22 @@ function Login({ onLoginSuccess, onNewSchool }) {
     const handleInspectorClick = () => {
         setShowInspector(true);
         setShowPlanner(false);
+        setShowNewSchool(false);
     };
 
     // Handle click to show Planner view
     const handlePlannerClick = () => {
         setShowPlanner(true);
         setShowInspector(false);
+        setShowNewSchool(false);
     };
+
+    const handleNewSchoolClick = () => {
+        setShowNewSchool(true); // Oppdater tilstand
+        setShowPlanner(false);
+        setShowInspector(false);
+    };
+
 
     // Handle district change and fetch school data
     const handleDistrictChange = async (e) => {
@@ -91,7 +102,7 @@ function Login({ onLoginSuccess, onNewSchool }) {
                 {/* New School */}
                 <div className={styles.card}>
                     <h2>New School</h2>
-                    <button onClick={onNewSchool} className={styles.button}>
+                    <button onClick={handleNewSchoolClick} className={styles.button}>
                         Record New School
                     </button>
                 </div>
@@ -137,7 +148,7 @@ function Login({ onLoginSuccess, onNewSchool }) {
             {/* Display Planner view if selected */}
             {showPlanner && (
                 <div className={styles.section}>
-                    <h2>Plan Inspection</h2>
+                    
                     <Planner 
                         onCancel={() => setShowPlanner(false)} 
                         onPlanConfirmed={() => setShowPlanner(false)}
@@ -145,7 +156,12 @@ function Login({ onLoginSuccess, onNewSchool }) {
                     />
                 </div>
             )}
-
+            {showNewSchool && ( // Render NewSchoolForm
+                <div className={styles.section}>
+                    
+                    <NewSchoolForm onCancel={() => setShowNewSchool(false)} />
+                </div>
+            )}  
             {error && <p className={styles.errorMessage}>{error}</p>}
         </div>
     );

@@ -1,26 +1,22 @@
-.formContainer {
-    max-width: 600px;
-    margin: 20px auto;
+/* NewSchoolForm.module.css */
+.container {
+    margin-top: 20px;
     padding: 20px;
-    background-color: #f9f9f9;
+    border: 1px solid #ddd;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border: 1px solid #cce4ff;
+    background-color: #f9f9f9;
 }
-
 .title {
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
-    text-align: center;
-    margin-bottom: 20px;
-    color: #0047ba;
+    margin-bottom: 15px;
 }
-
-.fieldGroup {
-    margin-bottom: 20px;
+.label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
 }
-
-.geoButton, .submitButton, .cancelButton {
+.select, .dateInput, .submitButton, .cancelButton, .geoButton {
     display: block;
     width: 100%;
     padding: 10px;
@@ -30,8 +26,36 @@
     border: 1px solid #ccc;
     cursor: pointer;
 }
-
+.schoolList {
+    list-style-type: none;
+    padding: 0;
+}
+.schoolCard {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+}
 .errorMessage {
     color: red;
     font-weight: bold;
+}
+.submitButton {
+    background-color: #007bff; /* Blue */
+    color: white;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+.submitButton:hover {
+    background-color: #0056b3;
+}
+.cancelButton {
+    background-color: #f44336; /* Red */
+    color: white;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+.cancelButton:hover {
+    background-color: #d32f2f;
 }
