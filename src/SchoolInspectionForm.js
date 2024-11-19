@@ -4,6 +4,25 @@ import styles from './SchoolInspectionForm.module.css';
 
 const BASE_URL = 'https://research.im.dhis2.org/in5320g19';
 
+// Data Elements for validation and submission
+const dataElements = [
+  { displayName: "CHK Computer Lab", id: "Nvp4hIbXrzF" },
+  { displayName: "CHK Computer Lab Condition", id: "gzhjCMe7OyS" },
+  { displayName: "CHK electricity supply", id: "IKiSAA19Xvl" },
+  { displayName: "CHK Electricity supply condition", id: "MH2eDd7qWxR" },
+  { displayName: "CHK Handwashing", id: "n9KwS4rY2HC" },
+  { displayName: "CHK Handwashing condition", id: "ie3bFiVatHT" },
+  { displayName: "CHK library", id: "Y6DQqwTdhiZ" },
+  { displayName: "CHK Library condition", id: "IAomDvMcUDr" },
+  { displayName: "CHK number of classrooms", id: "ya5SyA5hej4" },
+  { displayName: "CHK Number of classrooms clean and secure", id: "XIgpDhDC4Ol" },
+  { displayName: "CHK Playground", id: "XThfmg6f2oC" },
+  { displayName: "CHK Playground condition", id: "JzZfwXtdL6G" },
+  { displayName: "CHK Toilet for teachers", id: "I13NTyLrHBm" },
+  { displayName: "EMIS - Qualified Teachers PRI", id: "RJi5MW86kCs" },
+  { displayName: "EMIS - Primary Learners in the reporting year", id: "ue3QIMOAC7G" },
+];
+
 const SchoolInspectionForm = ({ school, onCancel }) => {
   const [reportDate, setReportDate] = useState('');
   const [computerLab, setComputerLab] = useState('');
@@ -28,9 +47,9 @@ const SchoolInspectionForm = ({ school, onCancel }) => {
   const handleNumberChange = (setter) => (value) => {
     const numericValue = parseInt(value, 10);
     if (numericValue < 0) {
-      setErrors(prev => ({ ...prev, [setter.name]: "Value cannot be negative" }));
+      setErrors((prev) => ({ ...prev, [setter.name]: 'Value cannot be negative' }));
     } else {
-      setErrors(prev => ({ ...prev, [setter.name]: "" }));
+      setErrors((prev) => ({ ...prev, [setter.name]: '' }));
       setter(numericValue);
     }
   };
@@ -38,32 +57,38 @@ const SchoolInspectionForm = ({ school, onCancel }) => {
   // Submit the inspection form data to the API
   const submitEvent = async () => {
     const eventPayload = {
-      events: [
-        {
-          program: "UxK2o06ScIe",          
-          programStage: "eJiBjm9Rl7E",     
-          orgUnit: school.orgUnitId,         
-          eventDate: reportDate,
-          status: "COMPLETED",
-          dataValues: [
-            { dataElement: "Nvp4hIbXrzF", value: computerLab },              
-            { dataElement: "gzhjCMe7OyS", value: computerLabCondition },     
-            { dataElement: "IKiSAA19Xvl", value: electricitySupply },        
-            { dataElement: "MH2eDd7qWxR", value: electricityCondition },     
-            { dataElement: "n9KwS4rY2HC", value: handwashing },              
-            { dataElement: "ie3bFiVatHT", value: handwashingCondition },    
-            { dataElement: "Y6DQqwTdhiZ", value: library },               
-            { dataElement: "IAomDvMcUDr", value: libraryCondition },         
-            { dataElement: "ya5SyA5hej4", value: totalClassrooms },          
-            { dataElement: "XIgpDhDC4Ol", value: cleanClassrooms },          
-            { dataElement: "XThfmg6f2oC", value: playground },               
-            { dataElement: "JzZfwXtdL6G", value: playgroundCondition },      
-            { dataElement: "I13NTyLrHBm", value: teacherToilets },  
-            { dataElement: "RJi5MW86kCs", value: qualifiedTeachersPRI },
-            { dataElement: "ue3QIMOAC7G", value: totalStudents },         
-          ],
-        },
-      ],
+        events: [
+            {
+                program: 'UxK2o06ScIe',
+                programStage: 'eJiBjm9Rl7E',
+                orgUnit: school.orgUnitId,
+                eventDate: reportDate,
+                status: 'COMPLETED',
+                dataValues: dataElements.map(element => {
+                    const value = (() => {
+                        switch (element.id) {
+                            case 'Nvp4hIbXrzF': return computerLab;
+                            case 'gzhjCMe7OyS': return computerLabCondition;
+                            case 'IKiSAA19Xvl': return electricitySupply;
+                            case 'MH2eDd7qWxR': return electricityCondition;
+                            case 'n9KwS4rY2HC': return handwashing;
+                            case 'ie3bFiVatHT': return handwashingCondition;
+                            case 'Y6DQqwTdhiZ': return library;
+                            case 'IAomDvMcUDr': return libraryCondition;
+                            case 'ya5SyA5hej4': return totalClassrooms;
+                            case 'XIgpDhDC4Ol': return cleanClassrooms;
+                            case 'XThfmg6f2oC': return playground;
+                            case 'JzZfwXtdL6G': return playgroundCondition;
+                            case 'I13NTyLrHBm': return teacherToilets;
+                            case 'RJi5MW86kCs': return qualifiedTeachersPRI;
+                            case 'ue3QIMOAC7G': return totalStudents;
+                            default: return null;
+                        }
+                    })();
+                    return { dataElement: element.id, value };
+                }),
+            },
+        ],
     };
 
     try {
